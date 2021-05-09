@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+
+    <title>Demo App</title>
+  </head>
+  <body>
+    <div id="app" class="p-10 w-6/12 mx-auto">
+      <h3 class="">Server Connection App</h3>
+      <button
+        @click="onPress"
+        class="border bg-yellow-200 p-4 text-2xl text-green-800"
+      >
+        Connect To Backend
+      </button>
+      <ul v-if="users" class="border my-10">
+        <li class="text-purple-500" v-for="user in users" :key="user.id">
+          {{user.name}}
+        </li>
+      </ul>
+    </div>
+    <script>
+      const App = {
+        data() {
+          return {
+            users: ""
+          };
+        },
+        methods: {
+          async onPress() {
+            const data = await fetch("/getUsers");
+            const users = await data.json();
+            this.users = users;
+          }
+        }
+      };
+
+      const app = Vue.createApp(App);
+      app.mount("#app");
+    </script>
+  </body>
+</html>
